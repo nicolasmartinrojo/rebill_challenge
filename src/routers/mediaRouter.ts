@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { MediaRepository } from "../../repositories/MediaRepository";
+import { MediaRepository } from "../repositories/MediaRepository";
 import rootRouter from "./rootRouter";
 const mediaRouter = Router();
 
