@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { NoteRepository } from "../../repositories/NotesRepository";
+import { NoteRepository } from "../repositories/NotesRepository";
 import rootRouter from "./rootRouter";
 const noteRouter = Router();
 

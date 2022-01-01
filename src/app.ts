@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 
-import mediaRouter from "./controllers/routers/mediaRouter";
-import noteRouter from "./controllers/routers/noteRouter";
+import mediaRouter from "./routers/mediaRouter";
+import noteRouter from "./routers/noteRouter";
 
 // Create Express server
 const app = express();

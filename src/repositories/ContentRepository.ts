@@ -16,30 +16,30 @@ export abstract class ContentRepository {
     return await cb();
   };
 
-  save = (content: Partial<IContent>) => {
+  save(content: Partial<IContent>) {
     return this.checkConn(() => ContentRepository.repository.save(content));
-  };
-  find = (filter = {}) => {
+  }
+  find(filter = {}) {
     return this.checkConn(() => ContentRepository.repository.find(filter));
-  };
-  findOne = (filter = {}) => {
+  }
+  findOne(filter = {}) {
     return this.checkConn(() => ContentRepository.repository.findOne(filter));
-  };
-  update = (id: number, props: Partial<IContent> = {}) => {
+  }
+  update(id: number, props: Partial<IContent> = {}) {
     return this.checkConn(async () => {
       let elem = await this.findOne({ id });
       elem = { ...elem, ...props };
       return await this.save(elem);
     });
-  };
-  remove = (filter = {}) => {
+  }
+  remove(filter = {}) {
     return this.checkConn(() => ContentRepository.repository.remove(filter));
-  };
+  }
 
-  message = (id) => {
+  message(id) {
     return this.checkConn(async () => {
       let elem = await this.findOne({ id });
       return elem.getMessage();
     });
-  };
+  }
 }
