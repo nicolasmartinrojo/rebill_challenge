@@ -1,5 +1,5 @@
 import express from "express";
-import path from "path";
+import cors from "cors";
 
 import mediaRouter from "./routers/mediaRouter";
 import noteRouter from "./routers/noteRouter";
@@ -9,12 +9,9 @@ const app = express();
 
 // Express configuration
 app.set("port", process.env.PORT || 8000);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(
-  express.static(path.join(__dirname, "../public"), { maxAge: 31557600000 })
-);
 
 app.use("/api/media", mediaRouter);
 app.use("/api/note", noteRouter);

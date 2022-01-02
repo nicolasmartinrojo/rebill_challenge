@@ -9,6 +9,9 @@ import {
 } from "@ant-design/icons";
 
 import "./Layout.less";
+import { Route, Routes } from "react-router";
+import { Link } from "react-router-dom";
+import { List, New } from "./pages";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -30,10 +33,12 @@ class RebillLayout extends React.Component {
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
             <Menu.Item key="1" icon={<PieChartOutlined />}>
-              Option 1
+              <Link to="/about">About</Link>
+              {/* Option 1 */}
             </Menu.Item>
             <Menu.Item key="2" icon={<DesktopOutlined />}>
-              Option 2
+              <Link to="/new">Home</Link>
+              {/* Option 2 */}
             </Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="User">
               <Menu.Item key="3">Tom</Menu.Item>
@@ -60,7 +65,10 @@ class RebillLayout extends React.Component {
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              Bill is a cat.
+              <Routes>
+                <Route path="/new" element={<New />} />
+                <Route path="about" element={<List />} />
+              </Routes>
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
