@@ -12,3 +12,4 @@ const anonymousAxios = (serviceModel: string) => ({
   delete: (id: string) => instance.delete(`${serviceModel}/${id}`),
 });
 export default anonymousAxios;
+export { instance };

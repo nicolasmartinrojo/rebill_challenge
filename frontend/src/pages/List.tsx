@@ -1,35 +1,42 @@
-import React, { SyntheticEvent } from "react";
+import React from "react";
 import { Table, message, Button, Popconfirm } from "antd";
 
-import axios from "axios";
-const success = () => {
-  message.success("This is a normal message");
+import noteApi from "../services/NoteApi";
+import { INote } from "../models/INote";
+const success = (row: INote) => {
+  noteApi.message(row.id).then((res) => {
+    message.success(res.data);
+  });
 };
 const List = () => {
   const columns = [
-    { title: "Name", dataIndex: "name", key: "name" },
-    { title: "Age", dataIndex: "age", key: "age" },
-    { title: "Address", dataIndex: "address", key: "address" },
+    { title: "Id", dataIndex: "id", key: "id" },
+    { title: "Title", dataIndex: "title", key: "title" },
+    { title: "Description", dataIndex: "description", key: "description" },
+    { title: "Message", dataIndex: "message", key: "message" },
+    { title: "Image", dataIndex: "image", key: "image" },
     {
       title: "Action",
-      dataIndex: "",
-      key: "x",
-      render: () => (
-        <>
-          <Button type="primary" onClick={success}>
-            Display normal message
-          </Button>
-          <Popconfirm
-            title="Are you sure to delete this task?"
-            onConfirm={confirm}
-            onCancel={cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <a href="#">Delete</a>
-          </Popconfirm>
-        </>
-      ),
+      dataIndex: "id",
+      key: "id",
+      render: (row: INote) => {
+        return (
+          <>
+            <Button type="primary" onClick={() => success(row)}>
+              Display normal message
+            </Button>
+            <Popconfirm
+              title="Are you sure to delete this task?"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Yes"
+              cancelText="No"
+            >
+              <a href="#">Delete</a>
+            </Popconfirm>
+          </>
+        );
+      },
     },
   ];
 
@@ -42,58 +49,14 @@ const List = () => {
     console.log(e);
     message.error("Click on No");
   }
-
-  const [theData, settheData] = React.useState([]);
+  const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
-    axios.get("http://localhost:8000/api/note");
+    noteApi.list().then((res: any) => {
+      setData(res.data);
+    });
   }, []);
-  const data = [
-    {
-      key: 1,
-      name: "John Brown",
-      age: 32,
-      address: "New York No. 1 Lake Park",
-      description:
-        "My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.",
-    },
-    {
-      key: 2,
-      name: "Jim Green",
-      age: 42,
-      address: "London No. 1 Lake Park",
-      description:
-        "My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.",
-    },
-    {
-      key: 3,
-      name: "Not Expandable",
-      age: 29,
-      address: "Jiangsu No. 1 Lake Park",
-      description: "This not expandable",
-    },
-    {
-      key: 4,
-      name: "Joe Black",
-      age: 32,
-      address: "Sidney No. 1 Lake Park",
-      description:
-        "My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.",
-    },
-  ];
-
-  return (
-    <Table
-      columns={columns}
-      expandable={{
-        expandedRowRender: (record) => (
-          <p style={{ margin: 0 }}>{record.description}</p>
-        ),
-        rowExpandable: (record) => record.name !== "Not Expandable",
-      }}
-      dataSource={data}
-    />
-  );
+  return <Table columns={columns} dataSource={data} rowKey="id" />;
 };
 
 export default List;

@@ -1,4 +1,8 @@
-import anonymousAxios from "./requestTypes/anonymous.axios";
+import anonymousAxios, { instance } from "./requestTypes/anonymous.axios";
 
-const noteApi = anonymousAxios("api/note");
+const serviceModel = "api/note";
+const noteApi = {
+  ...anonymousAxios(serviceModel),
+  message: (id: string) => instance.get(`${serviceModel}/${id}/message`),
+};
 export default noteApi;
