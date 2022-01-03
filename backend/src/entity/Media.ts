@@ -1,6 +1,5 @@
-import { Entity, Column, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column } from "typeorm";
 import { AbstractContent } from "./AbstractContent";
-import { Note } from "./Notes";
 
 @Entity()
 export class Media extends AbstractContent {
@@ -9,10 +8,6 @@ export class Media extends AbstractContent {
 
   @Column({ default: false })
   is_video: boolean;
-
-  // @OneToMany((note) => Note, (note) => note.image)
-  // notes: Note[];
-
   public getMessage = () => {
     return this.is_video
       ? `para acceder al video ${this.title}} diríjase a ${this.url}`

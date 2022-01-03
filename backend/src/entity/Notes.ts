@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, Column, ManyToOne } from "typeorm";
 import { AbstractContent } from "./AbstractContent";
 import { Media } from "./Media";
 
