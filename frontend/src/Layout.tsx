@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu } from "antd";
 import { DesktopOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 import "./Layout.less";
@@ -45,15 +45,12 @@ class RebillLayout extends React.Component {
         <Layout className="site-layout">
           <Header className="site-layout-background" style={{ padding: 0 }} />
           <Content style={{ margin: "0 16px" }}>
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
             <div
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
               <Routes>
+                <Route path="/" element={<Home />} />
                 <Route path="/media" element={<ListMedia />} />
                 <Route path="/notes" element={<ListNotes />} />
                 <Route path="/media/new" element={<NewMedia />} />
@@ -64,7 +61,7 @@ class RebillLayout extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2018 Created by Ant UED
+            Ant Design 2022 Created by The Saracatunga crew
           </Footer>
         </Layout>
       </Layout>
@@ -72,4 +69,5 @@ class RebillLayout extends React.Component {
   }
 }
 
+const Home = () => <>La home</>;
 export default RebillLayout;

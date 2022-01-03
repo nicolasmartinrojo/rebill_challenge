@@ -1,14 +1,7 @@
-import { message, Button } from "antd";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { INote } from "../../models/INote";
 import noteApi from "../../services/NoteApi";
 import List from "./List";
-
-const success = (id: string) => {
-  noteApi.message(id).then((res) => {
-    message.success(res.data);
-  });
-};
 
 const ListNotes = () => {
   const extraColumns = [
@@ -17,20 +10,14 @@ const ListNotes = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      render: (row: INote) => (
+      render: (row: object) => (
         <div>
           <pre>{JSON.stringify(row, null, 2)}</pre>
         </div>
       ),
     },
   ];
-  const extraActions = (id: string) => (
-    <>
-      <Button type="primary" onClick={() => success(id)}>
-        Show message
-      </Button>
-    </>
-  );
+  const extraActions = (id: string) => <></>;
   return (
     <>
       <Button>
@@ -41,6 +28,7 @@ const ListNotes = () => {
         extraColumns={extraColumns}
         extraActions={extraActions}
         listEndpoint={noteApi.list}
+        messageEndpoint={noteApi.message}
         removeEndpoint={noteApi.delete}
       />
     </>

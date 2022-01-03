@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Popconfirm, Table } from "antd";
+import { Button, message, Popconfirm, Space, Table } from "antd";
 
 import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ interface ListProps {
   extraActions?: (id: string) => JSX.Element;
   listEndpoint: () => Promise<AxiosResponse<any, any>>;
   removeEndpoint: (id: string) => Promise<AxiosResponse<any, any>>;
+  messageEndpoint: (id: string) => Promise<AxiosResponse<any, any>>;
 }
 
 const List = ({
@@ -17,9 +18,16 @@ const List = ({
   extraActions,
   listEndpoint,
   removeEndpoint,
+  messageEndpoint,
   model,
 }: ListProps) => {
   const [data, setData] = React.useState([]);
+
+  const success = (id: string) => {
+    messageEndpoint(id).then((res) => {
+      message.success(res.data);
+    });
+  };
 
   function remove(id: string) {
     removeEndpoint(id).then(() => refresh());
@@ -37,18 +45,23 @@ const List = ({
       render: (id: string) => {
         return (
           <>
-            {extraActions && extraActions(id)}
-            <Button type="dashed">
-              <Link to={`/${model}/${id}`}>Edit</Link>
-            </Button>
-            <Popconfirm
-              title="Are you sure to delete this element?"
-              onConfirm={() => remove(id)}
-              okText="Yes"
-              cancelText="No"
-            >
-              <a href="#">Delete</a>
-            </Popconfirm>
+            <Space size={"small"}>
+              {extraActions && extraActions(id)}
+              <Button type="primary" onClick={() => success(id)}>
+                Show message
+              </Button>
+              <Button>
+                <Link to={`/${model}/${id}`}>Edit</Link>
+              </Button>
+              <Popconfirm
+                title="Are you sure to delete this element?"
+                onConfirm={() => remove(id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Button danger>Delete</Button>
+              </Popconfirm>
+            </Space>
           </>
         );
       },

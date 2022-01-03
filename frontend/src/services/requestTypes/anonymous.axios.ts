@@ -12,6 +12,7 @@ const anonymousAxios = (serviceModel: string) => ({
     instance.put(`${serviceModel}/${id}`, data),
   create: (data: IContent) => instance.post(`${serviceModel}/`, data),
   delete: (id: string) => instance.delete(`${serviceModel}/${id}`),
+  message: (id: string) => instance.get(`${serviceModel}/${id}/message`),
 });
 export default anonymousAxios;
 export { instance };
