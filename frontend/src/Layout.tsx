@@ -18,7 +18,6 @@ class RebillLayout extends React.Component {
   };
 
   onCollapse = (collapsed: any) => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 

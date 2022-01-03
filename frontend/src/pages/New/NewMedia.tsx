@@ -1,4 +1,4 @@
-import { Form, Input, Switch, Checkbox } from "antd";
+import { Form, Input, Switch } from "antd";
 import mediaApi from "../../services/MediaApi";
 import New from "./New";
 
