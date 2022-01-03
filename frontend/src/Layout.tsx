@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu } from "antd";
 import { DesktopOutlined, UnorderedListOutlined } from "@ant-design/icons";
-
+import { PageHeader } from "antd";
 import "./Layout.less";
 import { Route, Routes } from "react-router";
 import { Link } from "react-router-dom";
@@ -69,5 +69,9 @@ class RebillLayout extends React.Component {
   }
 }
 
-const Home = () => <>La home</>;
+const Home = () => (
+  <>
+    <PageHeader className="site-page-header" title="Home" />
+  </>
+);
 export default RebillLayout;

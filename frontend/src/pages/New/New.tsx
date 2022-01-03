@@ -1,8 +1,6 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { Radio } from "antd";
 import { INote } from "../../models/INote";
-import noteApi from "../../services/NoteApi";
 import { useParams } from "react-router-dom";
 import WithLoader from "../../components/WithLoader";
 import { useNavigate } from "react-router-dom";
@@ -84,8 +82,6 @@ const New = ({
           <Input />
         </Form.Item>
         {extraFields}
-        {/*
-         */}
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">

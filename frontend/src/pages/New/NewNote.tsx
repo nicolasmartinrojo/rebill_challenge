@@ -32,7 +32,9 @@ const NewNote = () => {
         <Select style={{ width: 120 }}>
           <Option value={""}>Choose a Media</Option>
           {media.map((elem) => (
-            <Option value={elem.id}>{elem.title}</Option>
+            <Option value={elem.id} key={elem.id}>
+              {elem.title}
+            </Option>
           ))}
         </Select>
       </Form.Item>
