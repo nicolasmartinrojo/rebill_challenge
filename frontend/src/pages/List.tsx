@@ -1,21 +1,35 @@
 import React from "react";
-import { Table, message, Button, Popconfirm } from "antd";
+import { Button, Popconfirm, Table } from "antd";
 
-import noteApi from "../services/NoteApi";
-
+import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
-const success = (id: string) => {
-  noteApi.message(id).then((res) => {
-    message.success(res.data);
-  });
-};
-const List = () => {
+
+interface ListProps {
+  extraColumns: object[];
+  extraActions?: (id: string) => JSX.Element;
+  listEndpoint: () => Promise<AxiosResponse<any, any>>;
+  removeEndpoint: (id: string) => Promise<AxiosResponse<any, any>>;
+}
+
+const List = ({
+  extraColumns,
+  extraActions,
+  listEndpoint,
+  removeEndpoint,
+}: ListProps) => {
+  const [data, setData] = React.useState([]);
+
+  function remove(id: string) {
+    removeEndpoint(id);
+    refresh();
+  }
+
   const columns = [
     { title: "Id", dataIndex: "id", key: "id" },
     { title: "Title", dataIndex: "title", key: "title" },
     { title: "Description", dataIndex: "description", key: "description" },
     { title: "Message", dataIndex: "message", key: "message" },
-    { title: "Image", dataIndex: "image", key: "image" },
+    ...extraColumns,
     {
       title: "Action",
       dataIndex: "id",
@@ -23,17 +37,13 @@ const List = () => {
       render: (id: string) => {
         return (
           <>
-            <Button type="primary" onClick={() => success(id)}>
-              Show message
-            </Button>
-
+            {extraActions && extraActions(id)}
             <Button type="dashed">
               <Link to={`/note/${id}`}>Edit</Link>
             </Button>
             <Popconfirm
-              title="Are you sure to delete this task?"
-              onConfirm={() => confirm(id)}
-              onCancel={cancel}
+              title="Are you sure to delete this element?"
+              onConfirm={() => remove(id)}
               okText="Yes"
               cancelText="No"
             >
@@ -45,19 +55,8 @@ const List = () => {
     },
   ];
 
-  function confirm(id: string) {
-    noteApi.delete(id);
-    message.success("Click on Yes");
-  }
-
-  function cancel(e: any) {
-    console.log(e);
-    message.error("Click on No");
-  }
-  const [data, setData] = React.useState([]);
-
   const refresh = () => {
-    noteApi.list().then((res: any) => {
+    listEndpoint().then((res: any) => {
       setData(res.data);
     });
   };

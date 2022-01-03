@@ -6,7 +6,6 @@ interface withLoaderProps {
   isLoading: boolean;
 }
 const WithLoader: React.FC<withLoaderProps> = ({ isLoading, children }) => {
-  console.log(isLoading);
   return <>{isLoading ? <Spin /> : children}</>;
 };
 
