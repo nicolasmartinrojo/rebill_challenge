@@ -1,6 +1,4 @@
-import { message, Button } from "antd";
-import mediaApi from "../services/MediaApi";
-import noteApi from "../services/NoteApi";
+import mediaApi from "../../services/MediaApi";
 import List from "./List";
 
 const ListNotes = () => {

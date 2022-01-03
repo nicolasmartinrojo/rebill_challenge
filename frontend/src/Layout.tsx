@@ -6,9 +6,9 @@ import "./Layout.less";
 import { Route, Routes } from "react-router";
 import { Link } from "react-router-dom";
 import { New } from "./pages";
-import NewMedia from "./pages/NewMedia";
-import ListNotes from "./pages/ListNotes";
-import ListMedia from "./pages/ListMedia";
+import NewMedia from "./pages/New/NewMedia";
+import ListNotes from "./pages/List/ListNotes";
+import ListMedia from "./pages/List/ListMedia";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 

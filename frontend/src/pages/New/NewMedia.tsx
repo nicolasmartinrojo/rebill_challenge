@@ -1,13 +1,13 @@
 import React from "react";
 import { Form, Input, Button } from "antd";
-import { Radio } from "antd";
-import { INote } from "../models/INote";
-import noteApi from "../services/NoteApi";
+import { Switch } from "antd";
+import { INote } from "../../models/INote";
+import noteApi from "../../services/NoteApi";
 import { useParams } from "react-router-dom";
-import WithLoader from "../components/WithLoader";
+import WithLoader from "../../components/WithLoader";
 import { useNavigate } from "react-router-dom";
 
-const New = () => {
+const NewMedia = () => {
   const { id } = useParams();
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
@@ -20,7 +20,6 @@ const New = () => {
       noteApi.create(values).then(console.log);
       navigate("../success", { replace: true });
     }
-    console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -65,10 +64,14 @@ const New = () => {
           <Input />
         </Form.Item>
 
+        <Form.Item label="Is video?" name="is_video">
+          <Switch defaultChecked />
+        </Form.Item>
+
         <Form.Item
-          label="Message"
-          name="message"
-          rules={[{ required: true, message: "Please input the message" }]}
+          label="Url"
+          name="url"
+          rules={[{ required: true, message: "Please input the url" }]}
         >
           <Input />
         </Form.Item>
@@ -83,4 +86,4 @@ const New = () => {
   );
 };
 
-export default New;
+export default NewMedia;

@@ -1,5 +1,5 @@
 import { message, Button } from "antd";
-import noteApi from "../services/NoteApi";
+import noteApi from "../../services/NoteApi";
 import List from "./List";
 
 const success = (id: string) => {
