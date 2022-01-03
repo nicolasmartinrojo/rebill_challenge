@@ -8,6 +8,7 @@ const ListNotes = () => {
 
   return (
     <List
+      model="media"
       extraColumns={extraColumns}
       listEndpoint={mediaApi.list}
       removeEndpoint={mediaApi.delete}

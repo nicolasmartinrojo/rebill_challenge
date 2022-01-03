@@ -9,7 +9,10 @@ const success = (id: string) => {
 };
 
 const ListNotes = () => {
-  const extraColumns = [{ title: "Image", dataIndex: "image", key: "image" }];
+  const extraColumns = [
+    { title: "Message", dataIndex: "message", key: "message" },
+    { title: "Image", dataIndex: "image", key: "image" },
+  ];
   const extraActions = (id: string) => (
     <>
       <Button type="primary" onClick={() => success(id)}>
@@ -19,6 +22,7 @@ const ListNotes = () => {
   );
   return (
     <List
+      model="note"
       extraColumns={extraColumns}
       extraActions={extraActions}
       listEndpoint={noteApi.list}

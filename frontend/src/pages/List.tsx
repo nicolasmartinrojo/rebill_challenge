@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 
 interface ListProps {
+  model: string;
   extraColumns: object[];
   extraActions?: (id: string) => JSX.Element;
   listEndpoint: () => Promise<AxiosResponse<any, any>>;
@@ -16,6 +17,7 @@ const List = ({
   extraActions,
   listEndpoint,
   removeEndpoint,
+  model,
 }: ListProps) => {
   const [data, setData] = React.useState([]);
 
@@ -28,7 +30,6 @@ const List = ({
     { title: "Id", dataIndex: "id", key: "id" },
     { title: "Title", dataIndex: "title", key: "title" },
     { title: "Description", dataIndex: "description", key: "description" },
-    { title: "Message", dataIndex: "message", key: "message" },
     ...extraColumns,
     {
       title: "Action",
@@ -39,7 +40,7 @@ const List = ({
           <>
             {extraActions && extraActions(id)}
             <Button type="dashed">
-              <Link to={`/note/${id}`}>Edit</Link>
+              <Link to={`/${model}/${id}`}>Edit</Link>
             </Button>
             <Popconfirm
               title="Are you sure to delete this element?"
