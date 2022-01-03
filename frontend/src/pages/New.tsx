@@ -1,67 +1,85 @@
-import { Form, Input, Button, Checkbox } from "antd";
+import React from "react";
+import { Form, Input, Button } from "antd";
 import { Radio } from "antd";
+import { INote } from "../models/INote";
+import noteApi from "../services/NoteApi";
+import { useParams } from "react-router-dom";
+import WithLoader from "../components/WithLoader";
+import { useNavigate } from "react-router-dom";
 
 const New = () => {
+  const { id } = useParams();
+  let navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+
   const onFinish = (values: any) => {
+    if (id) {
+      noteApi.update(id, values).then(console.log);
+      navigate("../success", { replace: true });
+    } else {
+      noteApi.create(values).then(console.log);
+      navigate("../success", { replace: true });
+    }
     console.log("Success:", values);
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
+  const [data, setData] = React.useState<Partial<INote>>({ title: "aa" });
+  React.useEffect(() => {
+    if (id) {
+      noteApi.single(id).then((res) => {
+        setData(res.data);
+        setIsLoading(false);
+      });
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
   return (
-    <Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 16 }}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Type"
-        name="type"
-        rules={[{ required: true, message: "Please input your username!" }]}
+    <WithLoader isLoading={isLoading}>
+      <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        initialValues={data}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        <Radio.Group defaultValue="a" buttonStyle="solid">
-          <Radio.Button value="a">Hangzhou</Radio.Button>
-          <Radio.Button value="b">Shanghai</Radio.Button>
-          <Radio.Button value="c">Beijing</Radio.Button>
-          <Radio.Button value="d">Chengdu</Radio.Button>
-        </Radio.Group>
-      </Form.Item>
-      <Form.Item
-        label="Username"
-        name="username"
-        rules={[{ required: true, message: "Please input your username!" }]}
-      >
-        <Input />
-      </Form.Item>
+        <Form.Item
+          label="Title"
+          name="title"
+          rules={[{ required: true, message: "Please input the title" }]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Input.Password />
-      </Form.Item>
+        <Form.Item
+          label="Description"
+          name="description"
+          rules={[{ required: true, message: "Please input the title" }]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item
-        name="remember"
-        valuePropName="checked"
-        wrapperCol={{ offset: 8, span: 16 }}
-      >
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
+        <Form.Item
+          label="Message"
+          name="message"
+          rules={[{ required: true, message: "Please input the message" }]}
+        >
+          <Input />
+        </Form.Item>
 
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </WithLoader>
   );
 };
 
