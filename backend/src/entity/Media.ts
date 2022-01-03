@@ -3,7 +3,7 @@ import { AbstractContent } from "./AbstractContent";
 
 @Entity()
 export class Media extends AbstractContent {
-  @Column()
+  @Column({ default: "" })
   url: string;
 
   @Column({ default: false })

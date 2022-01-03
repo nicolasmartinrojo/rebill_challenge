@@ -18,6 +18,6 @@
   "scripts": {
     "dev": "ts-node-dev ./src/server.ts",
     "create": "ts-node src/creation.ts",
-    "data": "ts-node src/data.ts"
+    "data": "ts-node-dev src/data.ts"
   }
 }

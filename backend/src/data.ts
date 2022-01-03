@@ -28,7 +28,5 @@ mediaRepo.save(media2).then((res) => {
   note.image = media;
   const noteRepo = new NoteRepository();
 
-  noteRepo.save(note);
+  noteRepo.save(note).then(() => process.exit());
 });
-
-process.exit();
