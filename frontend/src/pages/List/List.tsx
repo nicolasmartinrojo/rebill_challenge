@@ -22,8 +22,7 @@ const List = ({
   const [data, setData] = React.useState([]);
 
   function remove(id: string) {
-    removeEndpoint(id);
-    refresh();
+    removeEndpoint(id).then(() => refresh());
   }
 
   const columns = [
@@ -64,6 +63,7 @@ const List = ({
   React.useEffect(() => {
     refresh();
   }, []);
+
   return <Table columns={columns} dataSource={data} rowKey="id" />;
 };
 

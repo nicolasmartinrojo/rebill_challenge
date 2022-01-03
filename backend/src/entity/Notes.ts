@@ -1,4 +1,4 @@
-import { Entity, Column, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, OneToMany, ManyToOne } from "typeorm";
 import { AbstractContent } from "./AbstractContent";
 import { Media } from "./Media";
 
@@ -7,8 +7,7 @@ export class Note extends AbstractContent {
   @Column()
   message: string;
 
-  @OneToOne(() => Media)
-  @JoinColumn()
+  @ManyToOne(() => Media, (media) => media.id)
   image: Media;
 
   public getMessage = () => {

@@ -1,8 +1,8 @@
 import IContent from "./IContent";
 
-interface INote extends IContent {
+interface IMedia extends IContent {
   url: string;
   is_video: boolean;
 }
 
-export type { INote };
+export type { IMedia };

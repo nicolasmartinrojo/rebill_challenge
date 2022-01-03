@@ -1,29 +1,36 @@
 import { createConnection } from "typeorm";
 import { IContent } from "../entity/AbstractContent";
 
+interface FilterProps {
+  relations?: any;
+}
 export abstract class ContentRepository {
   private static _conn;
   protected abstract Class;
-  protected static repository;
+  protected repository;
 
   private checkConn = async (cb) => {
     if (!ContentRepository._conn) {
       ContentRepository._conn = await createConnection();
-      ContentRepository.repository = ContentRepository._conn.getRepository(
-        this.Class
-      );
     }
+    this.repository = await ContentRepository._conn.getRepository(this.Class);
     return await cb();
   };
 
   save(content: Partial<IContent>) {
-    return this.checkConn(() => ContentRepository.repository.save(content));
+    return this.checkConn(() => this.repository.save(content));
   }
-  find(filter = {}) {
-    return this.checkConn(() => ContentRepository.repository.find(filter));
+  find(filter: Partial<IContent & FilterProps> = {}) {
+    return this.checkConn(() => {
+      const { relations, ...rest } = filter;
+      return this.repository.find({ where: rest, relations });
+    });
   }
-  findOne(filter = {}) {
-    return this.checkConn(() => ContentRepository.repository.findOne(filter));
+  findOne(filter: Partial<IContent & FilterProps> = {}) {
+    return this.checkConn(() => {
+      const { relations, ...rest } = filter;
+      return this.repository.findOne({ where: rest, relations });
+    });
   }
   update(id: number, props: Partial<IContent> = {}) {
     return this.checkConn(async () => {
@@ -33,7 +40,7 @@ export abstract class ContentRepository {
     });
   }
   remove(filter = {}) {
-    return this.checkConn(() => ContentRepository.repository.remove(filter));
+    return this.checkConn(() => this.repository.remove(filter));
   }
 
   message(id) {

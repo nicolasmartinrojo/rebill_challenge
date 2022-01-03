@@ -5,10 +5,10 @@ import { DesktopOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import "./Layout.less";
 import { Route, Routes } from "react-router";
 import { Link } from "react-router-dom";
-import { New } from "./pages";
 import NewMedia from "./pages/New/NewMedia";
 import ListNotes from "./pages/List/ListNotes";
 import ListMedia from "./pages/List/ListMedia";
+import NewNote from "./pages/New/NewNote";
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
@@ -56,8 +56,9 @@ class RebillLayout extends React.Component {
               <Routes>
                 <Route path="/media" element={<ListMedia />} />
                 <Route path="/notes" element={<ListNotes />} />
-                <Route path="/new" element={<New />} />
-                <Route path="/note/:id" element={<New />} />
+                <Route path="/media/new" element={<NewMedia />} />
+                <Route path="/notes/new" element={<NewNote />} />
+                <Route path="/notes/:id" element={<NewNote />} />
                 <Route path="/media/:id" element={<NewMedia />} />
               </Routes>
             </div>

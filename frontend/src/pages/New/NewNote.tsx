@@ -1,86 +1,52 @@
 import React from "react";
-import { Form, Input, Button } from "antd";
-import { Radio } from "antd";
-import { INote } from "../../models/INote";
+
+import { Form, Input, Select } from "antd";
+import { IMedia } from "../../models/IMedia";
 import noteApi from "../../services/NoteApi";
-import { useParams } from "react-router-dom";
-import WithLoader from "../../components/WithLoader";
-import { useNavigate } from "react-router-dom";
+import New from "./New";
+import mediaApi from "../../services/MediaApi";
 
-const New = () => {
-  const { id } = useParams();
-  let navigate = useNavigate();
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+const { Option } = Select;
 
-  const onFinish = (values: any) => {
-    if (id) {
-      noteApi.update(id, values).then(console.log);
-      navigate("../success", { replace: true });
-    } else {
-      noteApi.create(values).then(console.log);
-      navigate("../success", { replace: true });
-    }
-    console.log("Success:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-  const [data, setData] = React.useState<Partial<INote>>({ title: "aa" });
+const NewNote = () => {
+  const [media, setMedia] = React.useState<IMedia[]>([]);
   React.useEffect(() => {
-    if (id) {
-      noteApi.single(id).then((res) => {
-        setData(res.data);
-        setIsLoading(false);
-      });
-    } else {
-      setIsLoading(false);
-    }
+    mediaApi.list().then((res) => {
+      setMedia(res.data);
+    });
   }, []);
-
-  return (
-    <WithLoader isLoading={isLoading}>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        initialValues={data}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
+  const extraFields = (
+    <>
+      <Form.Item
+        label="Message"
+        name="message"
+        rules={[{ required: true, message: "Please input the message" }]}
       >
-        <Form.Item
-          label="Title"
-          name="title"
-          rules={[{ required: true, message: "Please input the title" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Description"
-          name="description"
-          rules={[{ required: true, message: "Please input the title" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Message"
-          name="message"
-          rules={[{ required: true, message: "Please input the message" }]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </WithLoader>
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Media"
+        name="image"
+        rules={[{ required: true, message: "Please input the media" }]}
+      >
+        <Select style={{ width: 120 }}>
+          <Option value={""}>Choose a Media</Option>
+          {media.map((elem) => (
+            <Option value={elem.id}>{elem.title}</Option>
+          ))}
+        </Select>
+      </Form.Item>
+    </>
+  );
+  return (
+    <New
+      extraFields={extraFields}
+      createEndpoint={noteApi.create}
+      getElementEndpoint={noteApi.single}
+      updateEndpoint={noteApi.update}
+      model={"notes"}
+    />
   );
 };
 
-export default New;
+export default NewNote;
